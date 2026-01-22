@@ -25,7 +25,10 @@ class PsychologyTodayScraper:
         name_tag = div.find('a', class_='profile-title')
         name = name_tag.get_text(strip=True) if name_tag else 'N/A'
         profile_url = name_tag['href']
-        details_page = main.fetch_page(profile_url)
+        try:
+            details_page = main.fetch_page(profile_url)
+        except:
+            return None
         details_soup = BeautifulSoup(details_page, 'html.parser')
         qualifications_tag = details_soup.find('div', class_='qualifications')
         if not qualifications_tag:
