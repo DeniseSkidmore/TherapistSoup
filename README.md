@@ -11,7 +11,7 @@ Not a complete application, you stil need a top level script that inputs your ur
 scraper = PsychologyTodayScraper(filtered_url)
 therapists = [therapist for therapist in scraper.therapists if therapist is not None]
 with open('pt_results.txt', 'w') as file:
-    file.write(therapists)
+    file.write(json.dumps(therapists))
 print('')
 for therepist in therapists:
     is_good = False

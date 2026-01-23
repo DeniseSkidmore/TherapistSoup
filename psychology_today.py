@@ -13,12 +13,18 @@ class PsychologyTodayScraper:
         self.therapists = []
         next = url
         while next:
-            page_content = main.fetch_page(url)
+            page_content = main.fetch_page(next)
             soup = BeautifulSoup(page_content, 'html.parser')
             therapist_divs = soup.find_all('div', class_='results-row')
             #note, list can contain None for therapists with no qualifications listed
             self.therapists += [self.parse_therapist_div(div) for div in therapist_divs]
-            next = soup.find_all('a', class_='previous-next-btn directory-button grey outline small previous-next-btn')[-1]['href']
+            previous_next = soup.find_all('a', class_='previous-next-btn directory-button grey outline small previous-next-btn')
+            if 'Next' in previous_next[-1]['title']:
+                next = previous_next[-1]['href']
+                print()
+                print(next)
+            else:
+                next = None
 
 
     def parse_therapist_div(self, div):
